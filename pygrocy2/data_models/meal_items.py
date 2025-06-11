@@ -20,6 +20,16 @@ class RecipeItem(DataModel):
         self._desired_servings = response.desired_servings
         self._picture_file_name = response.picture_file_name
 
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "base_servings": self.base_servings,
+            "desired_servings": self.desired_servings,
+            "picture_file_name": self.picture_file_name,
+        }
+
     @property
     def id(self) -> int:
         return self._id
@@ -59,6 +69,16 @@ class MealPlanSection(DataModel):
         self._sort_number = response.sort_number
         self._row_created_timestamp = response.row_created_timestamp
 
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "sort_number": self.sort_number,
+            "row_created_timestamp": (
+                self.row_created_timestamp.isoformat() if self.row_created_timestamp else None
+            ),
+        }
+
     @property
     def id(self) -> int:
         return self._id
@@ -93,6 +113,20 @@ class MealPlanItem(DataModel):
         self._section_id = response.section_id
         self._type = MealPlanItemType(response.type)
         self._product_id = response.product_id
+
+
+    def as_dict(self):
+        return {
+            "id": self._id,
+            "day": self._day.strftime("%Y-%m-%d") if self._day else None,
+            "recipe": self._recipe.as_dict() if self.recipe else None,  # If recipe is another object, you may need to call as_dict() here too
+            "recipe_id": self._recipe_id,
+            "recipe_servings": self._recipe_servings,
+            "note": self._note,
+            "section_id": self._section_id,
+            "type": self._type.value if hasattr(self._type, "value") else str(self._type),
+            "product_id": self._product_id,
+        }
 
     @property
     def id(self) -> int:
