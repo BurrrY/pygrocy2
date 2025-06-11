@@ -170,6 +170,7 @@ class ProductDetailsResponse(BaseModel):
     next_best_before_date: datetime | None = None
     last_price: float | None = None
     product: ProductData
+    qu_conversion_factor_purchase_to_stock: float | None = None
     quantity_unit_stock: QuantityUnitData
     default_quantity_unit_purchase: QuantityUnitData
     barcodes: list[ProductBarcodeData] | None = Field(None, alias="product_barcodes")

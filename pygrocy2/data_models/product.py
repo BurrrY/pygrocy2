@@ -80,7 +80,9 @@ class Product(DataModel):
         self._is_aggregated_amount = None
         self._best_before_date = None
 
+        self._qu_conversion_factor_purchase_to_stock = None
         self._default_quantity_unit_purchase = None
+        self._quantity_unit_stock = None
 
         self._barcodes = []
         self._product_group_id = None
@@ -109,6 +111,11 @@ class Product(DataModel):
         self._barcodes = [ProductBarcode(data) for data in response.barcodes]
         self._default_quantity_unit_purchase = QuantityUnit(
             response.default_quantity_unit_purchase
+        )
+
+        self._qu_conversion_factor_purchase_to_stock = response.qu_conversion_factor_purchase_to_stock
+        self._quantity_unit_stock = QuantityUnit(
+            response.quantity_unit_stock
         )
 
         if response.product:
@@ -185,6 +192,14 @@ class Product(DataModel):
     @property
     def default_quantity_unit_purchase(self) -> QuantityUnit:
         return self._default_quantity_unit_purchase
+
+    @property
+    def qu_conversion_factor_purchase_to_stock(self) -> float:
+        return self._qu_conversion_factor_purchase_to_stock
+
+    @property
+    def quantity_unit_stock(self) -> QuantityUnit:
+        return self._quantity_unit_stock
 
 
 class Group(DataModel):
